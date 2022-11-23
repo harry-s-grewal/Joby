@@ -27,4 +27,4 @@ top of `joby.py`. The parameters are listed here.
 
 # Testing
 
-To run tests, open terminal and run `pytest -v`
+To run tests, open terminal and run `pytest -v`.
