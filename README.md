@@ -24,3 +24,7 @@ top of `joby.py`. The parameters are listed here.
 |   MAX_THREADS    |           Specifies max number of threads this script can spawn           |   int    |        512        |                           |
 |  MAX_QUEUE_SIZE  |         Specifies max length of the queue that IPs are read into          |   int    |        100        |                           |
 |   NUM_RETRIES    | Number of times a ping is retried for an IP before it's counted as a fail |   int    |         2         |                           |
+
+# Testing
+
+To run tests, open terminal and run `pytest -v`
