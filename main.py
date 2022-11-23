@@ -26,34 +26,39 @@ class result:
             self.ping_success_dict = {}
 
 
-def ping_ip(q, results, retries=1):
+def ping_ip(q, results, retries):
     """Pings the ip received from the queue and
         stores the result in a thread-safe way
     """
+    ip = str(q.get())
+    success = False
+    for i in range(retries):
+        if ping(ip, timeout=2).success():
+            success = True
+            break
+
+    ip_split = ip.split(".")
+
+    if ip_split[2] == "1":  # Use network ID to separate range
+        result = results.range_1
+    elif ip_split[2] == "2":
+        result = results.range_2
+
+    result.lock.acquire()
+    result.ping_success_dict[ip_split[-1]] = success
+    result.lock.release()
+    q.task_done()
+
+
+def multithread_loop(q, results, retries=1):
     while True:
-        ip = str(q.get())
-        success = False
-        for i in range(retries):
-            if ping(ip, timeout=2).success():
-                success = True
-                break
-
-        ip_split = ip.split(".")
-
-        if ip_split[2] == "1":  # Use network ID to separate range
-            result = results.range_1
-        elif ip_split[2] == "2":
-            result = results.range_2
-
-        result.lock.acquire()
-        result.ping_success_dict[ip_split[-1]] = success
-        result.lock.release()
-        q.task_done()
+        ping_ip(q, results, retries)
 
 
 def ping_from_queue(ip_queue, results, num_retries, max_threads=255):
     for i in range(max_threads):
-        t = Thread(target=ping_ip, args=(ip_queue, results, num_retries,))
+        t = Thread(target=multithread_loop, args=(
+            ip_queue, results, num_retries,))
         t.setDaemon(True)
         t.start()
 
