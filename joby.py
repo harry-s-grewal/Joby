@@ -3,12 +3,12 @@ from pythonping import ping
 from threading import Thread, Lock
 from queue import Queue
 
-MAX_THREADS = 512
-NUM_RETRIES = 2
-MAX_QUEUE_SIZE = 100
-OCTETS_TO_IGNORE = ["56"]
 IP_RANGE_1 = '192.168.1.0/24'
 IP_RANGE_2 = '192.168.2.0/24'
+OCTETS_TO_IGNORE = ["56"]
+MAX_THREADS = 512
+MAX_QUEUE_SIZE = 100
+NUM_RETRIES = 2
 
 
 class result:
