@@ -12,6 +12,10 @@ IP_RANGE_2 = '192.168.2.0/24'
 
 
 class result:
+    """Store the results of the pings, and have a separate
+        lock for each dictionary
+    """
+
     def __init__(self):
         self.range_1 = self.results_dict_with_mutex()
         self.range_2 = self.results_dict_with_mutex()
@@ -23,6 +27,9 @@ class result:
 
 
 def ping_ip(q, results, retries=1):
+    """Pings the ip received from the queue and
+        stores the result in a thread-safe way
+    """
     while True:
         ip = str(q.get())
         success = False
@@ -33,7 +40,7 @@ def ping_ip(q, results, retries=1):
 
         ip_split = ip.split(".")
 
-        if ip_split[2] == "1":
+        if ip_split[2] == "1":  # Use network ID to separate range
             result = results.range_1
         elif ip_split[2] == "2":
             result = results.range_2
@@ -59,8 +66,8 @@ if __name__ == '__main__':
     ip_queue = Queue(maxsize=MAX_QUEUE_SIZE)
     results = result()
 
-    ping_from_queue(ip_queue=ip_queue, results=results, num_retries=NUM_RETRIES,
-                    max_threads=MAX_THREADS)
+    ping_from_queue(ip_queue=ip_queue, results=results,
+                    num_retries=NUM_RETRIES, max_threads=MAX_THREADS)
 
     for ip in iprange1:
         if str(ip).split(".")[-1] in OCTETS_TO_IGNORE:
