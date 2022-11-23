@@ -63,8 +63,7 @@ def ping_from_queue(ip_queue, results, num_retries, max_threads=255):
         t.start()
 
 
-if __name__ == '__main__':
-
+def main():
     iprange1 = ipaddress.ip_network(IP_RANGE_1)
     iprange2 = ipaddress.ip_network(IP_RANGE_2)
 
@@ -97,3 +96,7 @@ if __name__ == '__main__':
                   " pingable: " + str(value_range_1) + " \n")
             print("Is IP 192.168.1." + key +
                   " pingable: " + str(value_range_2) + " \n")
+
+
+if __name__ == '__main__':
+    main()
