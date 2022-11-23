@@ -75,5 +75,13 @@ if __name__ == '__main__':
     ip_queue.join()
 
     for key in results.range_1.ping_success_dict.keys():
-
-        continue
+        if key not in results.range_2.ping_success_dict:
+            continue
+        value_range_1 = results.range_1.ping_success_dict[key]
+        value_range_2 = results.range_2.ping_success_dict[key]
+        if value_range_1 != value_range_2:
+            print("Discrepancy with ip suffix " + key)
+            print("Is IP 192.168.1." + key +
+                  " pingable: " + str(value_range_1) + " \n")
+            print("Is IP 192.168.1." + key +
+                  " pingable: " + str(value_range_2) + " \n")
