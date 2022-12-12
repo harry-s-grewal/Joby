@@ -28,3 +28,27 @@ top of `joby.py`. The parameters are listed here.
 # Testing
 
 To run tests, open terminal and run `pytest -v`.
+
+# Update to remove dependency on root priveleges
+
+Originally to implement the ping I utilized a library titled `python-ping`.
+`python-ping` requires root privileges, as do all `ping`
+services. `ping` requests are sent as ICMP packets and require a
+raw network socket to function. The creation of a raw network socket
+requires admin rights - therefore a true ICMP `ping` cannot be done without
+root privileges.
+
+In `ping.py` I have created a `subprocess` that allows a `ping` only using
+the onboard binaries. This was in an attempt to take advantage of the `setuid`
+functionality of ping. In Linux, a `ping` command can be run by any user, as
+the `setuid` allows `ping` to create a raw socket as root and continue as a
+normal user. This works without root privileges on my Mac.
+
+One of the downsides of using `subprocess` is that it's significantly slower
+than the previous option. However, it's much faster than using `os.system` as
+waiting for the response does not block the thread, allowing multithreading
+to reduce execution time.
+
+If `subprocess` doesn't work, the next option I can think of is a TCP ping;
+That wouldn't require root, but it depends on whether the services you have
+to test have a TCP port open.

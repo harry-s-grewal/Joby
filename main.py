@@ -85,8 +85,10 @@ def main():
 
     ip_queue.join()
 
-    print("Number of successful pings in Range 1:", sum(results.range_1.ping_success_dict.values()))
-    print("Number of successful pings in Range 2:", sum(results.range_2.ping_success_dict.values()))
+    num_success_range_1 = sum(results.range_1.ping_success_dict.values())
+    num_success_range_2 = sum(results.range_2.ping_success_dict.values())
+    print("Number of successful pings in Range 1:", num_success_range_1)
+    print("Number of successful pings in Range 2:", num_success_range_2)
 
     for key in results.range_1.ping_success_dict.keys():
         if key not in results.range_2.ping_success_dict:
