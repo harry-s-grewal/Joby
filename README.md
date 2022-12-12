@@ -35,7 +35,7 @@ refactored my code to use only Python's standard library. This removes the
 need for a `requirements.txt` - Hopefully this will make things
 easier to get up and running!
 
-# Update to remove dependency on root priveleges
+# Update to remove dependency on root
 
 Originally to implement the ping I utilized a library titled `python-ping`.
 `python-ping` requires root privileges, as do all `ping`
