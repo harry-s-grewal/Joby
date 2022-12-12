@@ -31,7 +31,7 @@ To run tests, open terminal and run `pytest -v`.
 
 # Dependencies
 My previous submission required a few libraries to function. I've
-refactored my code to use only Python built-ins. This removes the
+refactored my code to use only Python's standard library. This removes the
 need for a `requirements.txt` - Hopefully this will make things
 easier to get up and running!
 
