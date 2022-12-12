@@ -1,7 +1,7 @@
 import ipaddress
-from ping import ping_cmd
 from threading import Thread, Lock
 from queue import Queue
+from ping import ping_cmd
 
 IP_RANGE_1 = '192.168.1.0/24'
 IP_RANGE_2 = '192.168.2.0/24'
@@ -59,7 +59,7 @@ def ping_from_queue(ip_queue, results, num_retries, max_threads=255):
     for i in range(max_threads):
         t = Thread(target=multithread_loop, args=(
             ip_queue, results, num_retries,))
-        t.setDaemon(True)
+        t.daemon = True
         t.start()
 
 
@@ -84,6 +84,9 @@ def main():
         ip_queue.put(ip)
 
     ip_queue.join()
+
+    print("Number of successful pings in Range 1:", sum(results.range_1.ping_success_dict.values()))
+    print("Number of successful pings in Range 2:", sum(results.range_2.ping_success_dict.values()))
 
     for key in results.range_1.ping_success_dict.keys():
         if key not in results.range_2.ping_success_dict:
