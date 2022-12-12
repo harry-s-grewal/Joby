@@ -1,17 +1,14 @@
-from mock import patch
+from unittest.mock import patch
 from queue import Queue
 from main import result, ping_ip
-from pythonping.executor import ResponseList
 
 
-@patch("pythonping.ping")
-@patch.object(ResponseList, 'success')
-def test_ping_ip__happy_path(mock_ping, mock_response):
+@patch("main.ping_cmd")
+def test_ping_ip__happy_path(mock_ping):
     test_queue = Queue()
     test_result = result()
     num_retries = 2
-    mock_ping.return_value = mock_response
-    mock_response.return_value = True
+    mock_ping.return_value = True
 
     test_queue.put("192.168.1.0")
 

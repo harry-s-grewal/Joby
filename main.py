@@ -1,5 +1,5 @@
 import ipaddress
-from pythonping import ping
+from ping import ping_cmd
 from threading import Thread, Lock
 from queue import Queue
 
@@ -33,7 +33,7 @@ def ping_ip(q, results, retries):
     ip = str(q.get())
     success = False
     for i in range(retries):
-        if ping(ip, timeout=2).success():
+        if ping_cmd(ip, timeout=2):
             success = True
             break
 
